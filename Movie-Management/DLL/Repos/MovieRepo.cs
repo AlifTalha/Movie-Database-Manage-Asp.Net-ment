@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Repos
 {
-    internal class MovieRepo : Repo, IRepo<Movie, int, bool>
+    internal class MovieRepo : Repo, IRepo<Movie, int, bool>, IMovieRepo
     {
         public bool Create(Movie obj)
         {
@@ -32,6 +32,14 @@ namespace DAL.Repos
         {
             return db.Movies.ToList();
         }
+
+        public List<Movie> Search(string query)
+        {
+            return db.Movies
+                     .Where(m => m.Title.Contains(query) || m.Director.Contains(query))
+                     .ToList();
+        }
+
 
         public bool Update(Movie obj)
         {

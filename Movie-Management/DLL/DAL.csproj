@@ -57,6 +57,7 @@
     <Compile Include="EF\Tables\Movie.cs" />
     <Compile Include="EF\Tables\Rating.cs" />
     <Compile Include="EF\Tables\Review.cs" />
+    <Compile Include="EF\Tables\Token.cs" />
     <Compile Include="EF\Tables\User.cs" />
     <Compile Include="EF\Tables\Watchlist.cs" />
     <Compile Include="Interfaces\IAuth.cs" />
@@ -64,11 +65,16 @@
     <Compile Include="Interfaces\IRatingRepo.cs" />
     <Compile Include="Interfaces\IRepo.cs" />
     <Compile Include="Interfaces\IReviewRepo .cs" />
+    <Compile Include="Interfaces\ITokenRepo .cs" />
     <Compile Include="Interfaces\IUserRepo .cs" />
     <Compile Include="Interfaces\IWatchlistRepo.cs" />
     <Compile Include="Migrations\202501201619466_movieInit.cs" />
     <Compile Include="Migrations\202501201619466_movieInit.Designer.cs">
       <DependentUpon>202501201619466_movieInit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202501210616485_tokenInit.cs" />
+    <Compile Include="Migrations\202501210616485_tokenInit.Designer.cs">
+      <DependentUpon>202501210616485_tokenInit.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,6 +82,7 @@
     <Compile Include="Repos\RatingRepo.cs" />
     <Compile Include="Repos\Repo.cs" />
     <Compile Include="Repos\ReviewRepo.cs" />
+    <Compile Include="Repos\TokenRepo.cs" />
     <Compile Include="Repos\UserRepo.cs" />
     <Compile Include="Repos\WatchlistRepo.cs" />
   </ItemGroup>
@@ -86,6 +93,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202501201619466_movieInit.resx">
       <DependentUpon>202501201619466_movieInit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202501210616485_tokenInit.resx">
+      <DependentUpon>202501210616485_tokenInit.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

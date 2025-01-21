@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
-    public interface IMovieRepo : IRepo<Movie, int, bool>
+    public interface ITokenRepo : IRepo<Token, string, bool>
     {
-        List<Movie> Search(string query);
-
+        bool InvalidateToken(string tokenKey); // Add this method for invalidation
     }
 }

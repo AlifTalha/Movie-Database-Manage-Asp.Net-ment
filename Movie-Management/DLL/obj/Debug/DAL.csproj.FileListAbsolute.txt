@@ -12,3 +12,4 @@ C:\Users\user\source\repos\MovieDatabase\DAL\bin\Debug\EntityFramework.SqlServer
 C:\Users\user\source\repos\MovieDatabase\DAL\obj\Debug\DAL.csproj.Up2Date
 C:\Users\user\source\repos\MovieDatabase\DAL\obj\Debug\DAL.Migrations.movieInit.resources
 C:\Users\user\source\repos\MovieDatabase\DAL\obj\Debug\DAL.csproj.GenerateResource.cache
+C:\Users\user\source\repos\MovieDatabase\DAL\obj\Debug\DAL.Migrations.tokenInit.resources

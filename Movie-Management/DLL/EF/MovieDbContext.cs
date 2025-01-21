@@ -15,5 +15,7 @@ namespace DAL.EF
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Watchlist> Watchlists { get; set; }
+        public DbSet<Token> Tokens { get; set; }
+
     }
 }

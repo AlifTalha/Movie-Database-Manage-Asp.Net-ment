@@ -1,12 +1,9 @@
-﻿using DAL.EF.Tables;
+﻿
+using DAL.EF.Tables;
 using DAL.EF;
 using DAL.Interfaces;
 using DAL.Repos;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL
 {
@@ -17,7 +14,7 @@ namespace DAL
             return new UserRepo();
         }
 
-        public static IRepo<Movie, int, bool> MovieRepo()
+        public static IMovieRepo MovieRepo()
         {
             return new MovieRepo();
         }
@@ -35,6 +32,12 @@ namespace DAL
         public static IRepo<Watchlist, int, bool> WatchlistRepo()
         {
             return new WatchlistRepo();
+        }
+
+        // Add TokenRepo method
+        public static IRepo<Token, int, bool> TokenRepo()
+        {
+            return new TokenRepo();
         }
     }
 }
