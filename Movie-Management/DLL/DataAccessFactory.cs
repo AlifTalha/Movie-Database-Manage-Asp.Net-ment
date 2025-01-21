@@ -9,10 +9,10 @@ namespace DAL
 {
     public static class DataAccessFactory
     {
-        public static IUserRepo<User, int, bool> UserRepo()
-        {
-            return new UserRepo();
-        }
+        //public static IUserRepo<User, int, bool> UserRepo()
+        //{
+        //    return new UserRepo();
+        //}
 
         public static IMovieRepo MovieRepo()
         {
@@ -35,9 +35,14 @@ namespace DAL
         }
 
         // Add TokenRepo method
-        public static IRepo<Token, int, bool> TokenRepo()
+        //public static IRepo<Token, int, bool> TokenRepo()
+        //{
+        //    return new TokenRepo();
+        //}
+        public static IUserRepo UserData()
         {
-            return new TokenRepo();
+            return new UserRepo();
         }
+
     }
 }
