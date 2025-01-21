@@ -1,44 +1,37 @@
-﻿//using BLL.DTOs;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Net;
-//using System.Net.Http;
-//using System.Web.Http;
+﻿using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using BLL.DTOs;
+using BLL.Services;
 
-//namespace MovieDatabase.Controllers
-//{
-//    public class AuthController : ApiController
-//    {
-//        [HttpGet]
-//        [Route("api/test")]
-//        public HttpResponseMessage Hash()
-//        {
-//            return Request.CreateResponse(HttpStatusCode.OK, AuthService.CreateMD5("1234"));
-//        }
+namespace MovieDatabase.Controllers
+{
+    public class AuthController : ApiController
+    {
+        [HttpPost]
+        [Route("api/auth/register")]
+        public HttpResponseMessage Register(AuthDTO dto)
+        {
+            if (AuthService.Register(dto))
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, "Registration successful");
+            }
+            return Request.CreateResponse(HttpStatusCode.BadRequest, "Username already exists");
+        }
 
-//        [HttpPost]
-//        [Route("api/login")]
-//        public HttpResponseMessage Login(UserDTO user)
-//        {
-//            var data = AuthService.Authenticate(user.Username, user.Password);
-//            if (data != null)
-//            {
-//                return Request.CreateResponse(HttpStatusCode.OK, data);
-//            }
-//            return Request.CreateResponse(HttpStatusCode.NotFound);
-//        }
+        [HttpPost]
+        [Route("api/auth/login")]
+        public HttpResponseMessage Login(AuthDTO dto)
+        {
+            var token = AuthService.Login(dto);
+            if (token != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, new { Token = token });
+            }
+            return Request.CreateResponse(HttpStatusCode.Unauthorized, "Invalid credentials");
+        }
 
-//        [HttpPost]
-//        [Route("api/logout")]
-//        public HttpResponseMessage Logout(TokenDTO token)
-//        {
-//            var result = AuthService.Logout(token.Key);
-//            if (result)
-//            {
-//                return Request.CreateResponse(HttpStatusCode.OK, "Logged out successfully");
-//            }
-//            return Request.CreateResponse(HttpStatusCode.BadRequest, "Logout failed");
-//        }
-//    }
-//}
+     
+
+    }
+}

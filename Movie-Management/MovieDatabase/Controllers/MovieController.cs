@@ -55,6 +55,19 @@ namespace MovieDatabase.Controllers
             return Request.CreateResponse(HttpStatusCode.BadRequest, "Failed to update movie");
         }
 
+        [HttpGet]
+        [Route("api/movie/search")]
+        public HttpResponseMessage SearchMovies(string query)
+        {
+            var data = MovieService.Search(query);
+            if (data.Any())
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, data);
+            }
+            return Request.CreateResponse(HttpStatusCode.NotFound, "No movies found matching the query");
+        }
+
+
         [HttpDelete]
         [Route("api/movie/delete/{id}")]
         public HttpResponseMessage DeleteMovie(int id)
