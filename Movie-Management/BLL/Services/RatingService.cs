@@ -10,14 +10,29 @@ namespace BLL.Services
 {
     public class RatingService
     {
+        //public static Mapper GetMapper()
+        //{
+        //    var config = new MapperConfiguration(cfg => {
+        //        cfg.CreateMap<Rating, RatingDTO>();
+        //        cfg.CreateMap<RatingDTO, Rating>();
+        //    });
+        //    return new Mapper(config);
+        //}
         public static Mapper GetMapper()
         {
             var config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<Rating, RatingDTO>();
+                cfg.CreateMap<Rating, RatingDTO>()
+                   .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User))
+                   .ForMember(dest => dest.Movie, opt => opt.MapFrom(src => src.Movie));
+
+                cfg.CreateMap<User, UserDTO>();
+                cfg.CreateMap<Movie, MovieDTO>();
+
                 cfg.CreateMap<RatingDTO, Rating>();
             });
             return new Mapper(config);
         }
+
 
         public static List<RatingDTO> GetByMovie(int movieId)
         {
