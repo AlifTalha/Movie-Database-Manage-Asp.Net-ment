@@ -1,58 +1,86 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
+﻿using System;
+using System.Security.Cryptography;
+using System.Text;
+using BLL.DTOs;
+using DAL;
+using DAL.EF.Tables;
 
-//namespace BLL.Services
-//{
-//    internal class AuthService
-//    {
-//    }
-//}
+namespace BLL.Services
+{
+    public class AuthService
+    {
+        // Method to hash a password
+        private static string HashPassword(string password)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                var bytes = Encoding.UTF8.GetBytes(password);
+                var hash = sha256.ComputeHash(bytes);
+                return Convert.ToBase64String(hash);
+            }
+        }
+
+        // Method to register a new user
+        public static bool Register(AuthDTO dto)
+        {
+            var userRepo = DataAccessFactory.UserRepo();
+
+            // Check if the username already exists
+            if (userRepo.GetByUsername(dto.Username) != null)
+                return false;
+
+            // Hash the password before saving
+            var hashedPassword = HashPassword(dto.Password);
+
+            var newUser = new User
+            {
+                Username = dto.Username,
+                Password = hashedPassword,
+                Email = dto.Email
+            };
+
+            return userRepo.Create(newUser);
+        }
+
+        // Method to handle login
+        public static string Login(AuthDTO dto)
+        {
+            var userRepo = DataAccessFactory.UserRepo();
+
+            // Hash the password for validation
+            var hashedPassword = HashPassword(dto.Password);
+
+            // Validate the credentials
+            var user = userRepo.ValidateCredentials(dto.Username, hashedPassword);
+
+            if (user != null)
+            {
+                var tokenRepo = DataAccessFactory.TokenRepo();
+
+                // Generate a new token
+                var token = new Token
+                {
+                    Key = Guid.NewGuid().ToString(), // Unique token key
+                    UserId = user.Id, // Link token to user
+                    CreatedAt = DateTime.Now // Timestamp for token creation
+                };
 
 
-//using AutoMapper;
-//using BLL.DTOs;
-//using DAL;
-//using DAL.EF.Tables;
-//using System;
-//using System.Linq;
+                // Save the token and return the key
+                if (tokenRepo.Create(token))
+                    return token.Key;
+            }
 
-//namespace BLL.Services
-//{
-//    public class AuthService
-//    {
-//        public static Mapper GetMapper()
-//        {
-//            var config = new MapperConfiguration(cfg => {
-//                cfg.CreateMap<User, UserDTO>();
-//                cfg.CreateMap<UserDTO, User>();
-//            });
-//            return new Mapper(config);
-//        }
+            return null; // Return null if login fails
+        }
 
-//        public static UserDTO Authenticate(string username, string password)
-//        {
-//            var repo = DataAccessFactory.UserRepo();
-//            var user = repo.Get().FirstOrDefault(u => u.Username == username && u.Password == password);
-//            return user != null ? GetMapper().Map<UserDTO>(user) : null;
-//        }
 
-//        public static string CreateMD5(string input)
-//        {
-//            using (var md5 = System.Security.Cryptography.MD5.Create())
-//            {
-//                var inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
-//                var hashBytes = md5.ComputeHash(inputBytes);
-//                return Convert.ToHexString(hashBytes);
-//            }
-//        }
 
-//        public static bool Logout(string tokenKey)
-//        {
-//            // Implement token invalidation logic if necessary
-//            return true;
-//        }
-//    }
-//}
+
+
+
+ 
+
+
+    }
+}

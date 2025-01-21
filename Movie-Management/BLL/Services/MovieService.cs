@@ -1,17 +1,4 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-
-//namespace BLL.Services
-//{
-//    internal class MovieService
-//    {
-//    }
-//}
-
-
+﻿
 using AutoMapper;
 using BLL.DTOs;
 using DAL;
@@ -58,6 +45,15 @@ namespace BLL.Services
             entity.Id = id; // Ensure the ID is correct for update
             return repo.Update(entity);
         }
+
+        public static List<MovieDTO> Search(string query)
+        {
+            var repo = DataAccessFactory.MovieRepo();
+            var movies = repo.Search(query);
+            return GetMapper().Map<List<MovieDTO>>(movies);
+        }
+
+
 
         public static bool Delete(int id)
         {
