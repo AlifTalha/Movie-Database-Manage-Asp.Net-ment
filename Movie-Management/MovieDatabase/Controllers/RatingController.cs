@@ -11,13 +11,44 @@ namespace MovieDatabase.Controllers
 {
     public class RatingController : ApiController
     {
+        //[HttpGet]
+        //[Route("api/rating/movie/{movieId}")]
+        //public HttpResponseMessage GetRatingsByMovie(int movieId)
+        //{
+        //    var data = RatingService.GetByMovie(movieId);
+        //    return Request.CreateResponse(HttpStatusCode.OK, data);
+        //}
+
         [HttpGet]
         [Route("api/rating/movie/{movieId}")]
         public HttpResponseMessage GetRatingsByMovie(int movieId)
         {
-            var data = RatingService.GetByMovie(movieId);
-            return Request.CreateResponse(HttpStatusCode.OK, data);
+            var ratings = RatingService.GetByMovie(movieId);
+
+            // Optionally handle null values explicitly
+            var response = ratings.Select(r => new
+            {
+                r.Id,
+                r.Score,
+                r.UserId,
+                User = r.User != null ? new
+                {
+                    r.User.Id,
+                    r.User.Username,
+                    r.User.Email
+                } : null,
+                r.MovieId,
+                Movie = r.Movie != null ? new
+                {
+                    r.Movie.Id,
+                    r.Movie.Title,
+                    r.Movie.Genre
+                } : null
+            });
+
+            return Request.CreateResponse(HttpStatusCode.OK, response);
         }
+
 
         [HttpPost]
         [Route("api/rating/add")]
