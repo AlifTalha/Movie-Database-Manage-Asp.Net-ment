@@ -1,7 +1,6 @@
-﻿using BLL.DTOs;
+﻿
+using BLL.DTOs;
 using BLL.Services;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -15,8 +14,30 @@ namespace MovieDatabase.Controllers
         [Route("api/review/movie/{movieId}")]
         public HttpResponseMessage GetReviewsByMovie(int movieId)
         {
-            var data = ReviewService.GetByMovie(movieId);
-            return Request.CreateResponse(HttpStatusCode.OK, data);
+            var reviews = ReviewService.GetByMovie(movieId);
+
+          
+            var response = reviews.Select(r => new
+            {
+                r.Id,
+                r.Content,
+                r.UserId,
+                User = r.User != null ? new
+                {
+                    r.User.Id,
+                    r.User.Username,
+                    r.User.Email
+                } : null,
+                r.MovieId,
+                Movie = r.Movie != null ? new
+                {
+                    r.Movie.Id,
+                    r.Movie.Title,
+                    r.Movie.Genre
+                } : null
+            });
+
+            return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
         [HttpPost]
