@@ -1,14 +1,16 @@
-﻿using DAL.EF.Tables;
-using System;
+﻿
+using DAL.EF.Tables;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
-    public interface IWatchlistRepo : IRepo<Watchlist, int, bool>
+    public interface IWatchlistRepo
     {
+        bool Create(Watchlist obj);
+        bool Delete(int id);
+        Watchlist Get(int id);
+        List<Watchlist> Get();
         List<Watchlist> GetByUserId(int userId);
     }
 }
+

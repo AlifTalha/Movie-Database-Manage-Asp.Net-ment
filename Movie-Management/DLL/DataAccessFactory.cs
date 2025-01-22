@@ -19,7 +19,11 @@ namespace DAL
             return new MovieRepo();
         }
 
-        public static IRepo<Review, int, bool> ReviewRepo()
+        //public static IRepo<Review, int, bool> ReviewRepo()
+        //{
+        //    return new ReviewRepo();
+        //}
+        public static IReviewRepo ReviewRepo()
         {
             return new ReviewRepo();
         }
@@ -29,20 +33,22 @@ namespace DAL
             return new RatingRepo();
         }
 
-        public static IRepo<Watchlist, int, bool> WatchlistRepo()
+        
+        public static IWatchlistRepo WatchlistRepo()
         {
             return new WatchlistRepo();
         }
 
-        // Add TokenRepo method
-        //public static IRepo<Token, int, bool> TokenRepo()
-        //{
-        //    return new TokenRepo();
-        //}
+
         public static IUserRepo UserData()
         {
             return new UserRepo();
         }
+        public static IFavoriteRepo FavoriteRepo()
+        {
+            return new FavoriteRepo();
+        }
+
 
     }
 }

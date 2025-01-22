@@ -17,5 +17,7 @@ namespace DAL.EF
         public DbSet<Watchlist> Watchlists { get; set; }
         public DbSet<Token> Tokens { get; set; }
 
+        public DbSet<Favorite> Favorites { get; set; }
+
     }
 }

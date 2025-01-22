@@ -1,14 +1,13 @@
-﻿using DAL.EF.Tables;
+﻿
+using DAL.EF.Tables;
 using DAL.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace DAL.Repos
 {
-    internal class ReviewRepo : Repo, IRepo<Review, int, bool>
+    internal class ReviewRepo : Repo, IReviewRepo
     {
         public bool Create(Review obj)
         {
@@ -25,12 +24,18 @@ namespace DAL.Repos
 
         public Review Get(int id)
         {
-            return db.Reviews.Find(id);
+            return db.Reviews
+                .Include(r => r.User)    
+                .Include(r => r.Movie)   
+                .FirstOrDefault(r => r.Id == id);
         }
 
         public List<Review> Get()
         {
-            return db.Reviews.ToList();
+            return db.Reviews
+                .Include(r => r.User)    
+                .Include(r => r.Movie)   
+                .ToList();
         }
 
         public bool Update(Review obj)
@@ -38,6 +43,15 @@ namespace DAL.Repos
             var existingReview = Get(obj.Id);
             db.Entry(existingReview).CurrentValues.SetValues(obj);
             return db.SaveChanges() > 0;
+        }
+
+        public List<Review> GetByMovieId(int movieId)
+        {
+            return db.Reviews
+                .Include(r => r.User)   
+                .Include(r => r.Movie)  
+                .Where(r => r.MovieId == movieId)
+                .ToList();
         }
     }
 }

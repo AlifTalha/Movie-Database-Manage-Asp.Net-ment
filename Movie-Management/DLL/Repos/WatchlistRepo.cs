@@ -1,14 +1,13 @@
-﻿using DAL.EF.Tables;
+﻿
+using DAL.EF.Tables;
 using DAL.Interfaces;
-using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL.Repos
 {
-    internal class WatchlistRepo : Repo, IRepo<Watchlist, int, bool>
+    internal class WatchlistRepo : Repo, IWatchlistRepo
     {
         public bool Create(Watchlist obj)
         {
@@ -19,25 +18,37 @@ namespace DAL.Repos
         public bool Delete(int id)
         {
             var watchlist = Get(id);
-            db.Watchlists.Remove(watchlist);
-            return db.SaveChanges() > 0;
+            if (watchlist != null)
+            {
+                db.Watchlists.Remove(watchlist);
+                return db.SaveChanges() > 0;
+            }
+            return false;
         }
 
         public Watchlist Get(int id)
         {
-            return db.Watchlists.Find(id);
+            return db.Watchlists
+                     .Include(w => w.Movie)
+                     .Include(w => w.User)
+                     .FirstOrDefault(w => w.Id == id);
         }
 
         public List<Watchlist> Get()
         {
-            return db.Watchlists.ToList();
+            return db.Watchlists
+                     .Include(w => w.Movie)
+                     .Include(w => w.User)
+                     .ToList();
         }
 
-        public bool Update(Watchlist obj)
+        public List<Watchlist> GetByUserId(int userId)
         {
-            var existingWatchlist = Get(obj.Id);
-            db.Entry(existingWatchlist).CurrentValues.SetValues(obj);
-            return db.SaveChanges() > 0;
+            return db.Watchlists
+                     .Where(w => w.UserId == userId)
+                     .Include(w => w.Movie)
+                     .Include(w => w.User)
+                     .ToList();
         }
     }
 }
