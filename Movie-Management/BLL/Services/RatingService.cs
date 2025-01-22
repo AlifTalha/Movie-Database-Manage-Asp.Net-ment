@@ -10,14 +10,7 @@ namespace BLL.Services
 {
     public class RatingService
     {
-        //public static Mapper GetMapper()
-        //{
-        //    var config = new MapperConfiguration(cfg => {
-        //        cfg.CreateMap<Rating, RatingDTO>();
-        //        cfg.CreateMap<RatingDTO, Rating>();
-        //    });
-        //    return new Mapper(config);
-        //}
+        
         public static Mapper GetMapper()
         {
             var config = new MapperConfiguration(cfg => {

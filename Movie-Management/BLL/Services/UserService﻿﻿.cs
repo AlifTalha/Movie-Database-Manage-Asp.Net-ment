@@ -10,7 +10,7 @@ namespace BLL.Services
 {
     public class UserService
     {
-        private static Dictionary<string, string> ActiveSessions = new Dictionary<string, string>(); // In-memory session store
+        private static Dictionary<string, string> ActiveSessions = new Dictionary<string, string>(); 
 
         private static Mapper GetMapper()
         {
@@ -30,11 +30,11 @@ namespace BLL.Services
             {
                 var userDto = GetMapper().Map<UserDTO>(user);
 
-                // Generate token
+               
                 var token = Guid.NewGuid().ToString();
                 ActiveSessions[token] = username;
 
-                userDto.Token = token; // Attach token to the response DTO
+                userDto.Token = token; 
                 return userDto;
             }
             return null;

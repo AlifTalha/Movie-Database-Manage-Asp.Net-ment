@@ -42,7 +42,7 @@ namespace BLL.Services
         {
             var repo = DataAccessFactory.MovieRepo();
             var entity = GetMapper().Map<Movie>(movie);
-            entity.Id = id; // Ensure the ID is correct for update
+            entity.Id = id; 
             return repo.Update(entity);
         }
 

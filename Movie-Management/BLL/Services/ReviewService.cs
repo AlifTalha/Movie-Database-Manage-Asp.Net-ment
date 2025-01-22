@@ -13,7 +13,13 @@ namespace BLL.Services
         public static Mapper GetMapper()
         {
             var config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<Review, ReviewDTO>();
+                cfg.CreateMap<Review, ReviewDTO>()
+                   .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User))
+                   .ForMember(dest => dest.Movie, opt => opt.MapFrom(src => src.Movie));
+
+                cfg.CreateMap<User, UserDTO>();
+                cfg.CreateMap<Movie, MovieDTO>();
+
                 cfg.CreateMap<ReviewDTO, Review>();
             });
             return new Mapper(config);
@@ -22,7 +28,7 @@ namespace BLL.Services
         public static List<ReviewDTO> GetByMovie(int movieId)
         {
             var repo = DataAccessFactory.ReviewRepo();
-            var reviews = repo.Get().Where(r => r.MovieId == movieId).ToList();
+            var reviews = repo.GetByMovieId(movieId);
             return GetMapper().Map<List<ReviewDTO>>(reviews);
         }
 
